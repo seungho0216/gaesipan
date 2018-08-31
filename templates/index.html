@@ -23,6 +23,16 @@
         <p>내용 : {{ p.content }}</p>
         <a href="/edit/{{ p.id }}">[수정]</a>
         <a href="/delete/{{ p.id }}">[삭제]</a>
+        <p>-------------------댓 글------------------</p>
+        <form action="/create_comment">
+            <input type="text" name="comment_content">
+            <input type="hidden" name="post_id" value ="{{ p.id }}">
+            <input type="submit">
+        </form>
+        {% for d in comments %}
+            <p>{{ d.post_id }} : {{ d.content }}</p>
+        {% endfor %}
+        <hr>
     {% endfor %}
 </body>
 </html>

@@ -16,7 +16,12 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     content = db.Column(db.String, nullable=False)
-
+    
+class Comment(db.Model):
+    __tablename__ = "comments"
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String, nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
 db.create_all()
 
 
@@ -25,10 +30,11 @@ def index():
     # myapp.db에 있는 모든 레코드를 불러와 보여준다
     # SELECT * FROM posts;
     posts = Post.query.all()
+    comments = Comment.query.all()
     #posts는 list인 상태
     
     posts = reversed(posts) #새 게시물을 위로 올리는 법
-    return render_template('index.html', posts=posts)
+    return render_template('index.html', posts=posts, comments=comments)
 
 @app.route("/create")
 def create():
@@ -68,9 +74,22 @@ def update(id):
     post = Post.query.get(id)
     # 2. 수정을 하고
     post.title = request.args.get('title')
-    post.content = request.args.get('content')
+    post.content = request.args.get('constent')
     # 3. 커밋한다
     db.session.commit()
     return redirect("/")
+    
+    
+@app.route("/create_comment")
+def create_comment():
+    # Comment 테이블에 입력받은 내용을 저장한다
+    content = request.args.get('comment_content')
+    post_id = int(request.args.get('post_id'))
+    comment = Comment(content=content, post_id=post_id)
+
+    db.session.add(comment)
+    db.session.commit()
+    
+    return redirect("/")    
     
 app.run(host=os.getenv('IP', '0.0.0.0'),port=int(os.getenv('PORT', 8080)),debug=True)

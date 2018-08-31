@@ -1,7 +1,7 @@
 # 파이썬과 HTML으로 게시판 만들기
 
 ### 1. app.py
-```
+```python
 import os
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
@@ -81,7 +81,7 @@ app.run(host=os.getenv('IP', '0.0.0.0'),port=int(os.getenv('PORT', 8080)),debug=
 ```
 
 ### 2. index.html
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -113,7 +113,7 @@ app.run(host=os.getenv('IP', '0.0.0.0'),port=int(os.getenv('PORT', 8080)),debug=
 ```
 ### 3. create.html
 
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -126,6 +126,34 @@ app.run(host=os.getenv('IP', '0.0.0.0'),port=int(os.getenv('PORT', 8080)),debug=
     <h1>게시물이 작성되었습니다.</h1>
     <p>제목 : {{ title }}</p>
     <p>내용 : {{ content }}</p>
+</body>
+</html>
+```
+
+### 4. edit.html
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>게시판</title>
+    <style type="text/css">
+        #qjxms {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>게시판 입니다.</h1>
+    <!-- 새로운 태그로 /update 생성 -->
+    <form action="/update/{{ post.id }}">
+        제목 : <input type="text" name="title" value = "{{ post.title }}" /><br>
+        내용 : <input type="text" name="content" value = "{{ post.content }}" /><br>
+        <input type="submit" id="qjxms">
+    </form>
 </body>
 </html>
 ```
