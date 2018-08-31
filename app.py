@@ -62,8 +62,10 @@ def delete(id):
     # 1. 지우려 하는 레코드를 선택하여
     # post = Post.query.get(int(id))
     post = Post.query.get(id)
+    comment = Comment.query.get(id)
     # 2. 지운다.
     db.session.delete(post)
+    db.session.delete(comment)
     # 3. 확정하고 DB에 반영한다. Commit
     db.session.commit()
     return redirect("/")
