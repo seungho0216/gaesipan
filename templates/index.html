@@ -30,7 +30,9 @@
             <input type="submit">
         </form>
         {% for d in comments %}
+            {% if d.post_id == p.id %}
             <p>{{ d.post_id }} : {{ d.content }}</p>
+            {% endif %}
         {% endfor %}
         <hr>
     {% endfor %}
